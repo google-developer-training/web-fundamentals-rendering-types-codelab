@@ -1,0 +1,151 @@
+<!-- Copyright 2022 Google LLC.
+SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="/assets/shared.css" />
+		<script type="module" defer src="/client/main.js"></script>
+		<title>Client</title>
+	</head>
+	<body>
+		<main>
+			<header>
+				<ul>
+					<li>
+						<a href="/client/">Client ></a>
+					</li>
+
+					<li>
+						<a href="/client/long-text">Long text</a>
+					</li>
+
+					<li>
+						<a href="/client/many-api-calls">Many API calls</a>
+					</li>
+
+					<li>
+						<a href="/client/products">Products</a>
+					</li>
+				</ul>
+			</header>
+
+			<div class="container">Loading...</div>
+
+			<!-- Everything below this line is now immediately shown to the user -->
+
+			<template data-url="/client/">
+				<h1>This is the main client page</h1>
+
+				<p>
+					You are browsing the client side rendered pages. You can
+					also browse the <a href="/static">static</a> or
+					<a href="/server">server</a> pages.
+				</p>
+			</template>
+
+			<template data-url="/client/many-api-calls">
+				<h1>
+					As API calls complete, they are added to this already
+					rendered page
+				</h1>
+
+				<script type="module">
+					for (let i = 0; i < 4; i++) {
+						const response = await fetch(
+							"http://localhost:3001/api/slow-api"
+						);
+						const text = await response.text();
+						document
+							.querySelector(".container h1")
+							.after(`${text}`);
+					}
+				</script>
+			</template>
+
+			<template data-url="/client/products/:productslug">
+				<h1>This is a product page</h1>
+
+				<div data-productSlug="" class="contents"></div>
+
+				<script type="module">
+					const productSlug =
+						document.querySelector(".contents").dataset.productslug;
+					const response = await fetch(
+						`http://localhost:3001/api/products/${productSlug}`
+					);
+
+					let html;
+					try {
+						const product = await response.json();
+
+						html = `
+							<h2>${product.title}</h2>
+							<h3>${product.price}</h3>
+							<p>${product.description}</p>
+						`;
+					} catch (err) {
+						html = "There was an error with that product";
+					}
+
+					document.querySelector(".contents").innerHTML = html;
+				</script>
+			</template>
+
+			<template data-url="/client/products">
+				<h1>
+					This page includes a list of products from the API, but
+					fetched by the client
+				</h1>
+
+				<div class="contents"></div>
+
+				<script type="module">
+					const response = await fetch(
+						"http://localhost:3001/api/products"
+					);
+					const json = await response.json();
+
+					const html = `
+					<ol>
+					${json
+						.map(
+							(el) => `<li>
+						<a href="products/${el.slug}">${el.title}</a>
+						</li>`
+						)
+						.join("")}
+					</ol>
+					`;
+
+					document.querySelector(".contents").innerHTML = html;
+				</script>
+			</template>
+
+			<template data-url="/client/long-text">
+				<h1>
+					This page includes long text from the server, but the text
+					if fetched from the client
+				</h1>
+
+				<details open>
+					<summary>Some long text...</summary>
+				</details>
+
+				<script type="module">
+					const response = await fetch(
+						"http://localhost:3001/api/long-text"
+					);
+					const text = await response.text();
+					document.querySelector("summary").after(text);
+				</script>
+			</template>
+
+			<template data-url="/client/error">
+				<h1>Error, that page was not found</h1>
+			</template>
+		</main>
+	</body>
+</html>

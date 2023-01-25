@@ -1,0 +1,32 @@
+/* Copyright 2022 Google LLC.
+SPDX-License-Identifier: Apache-2.0 */
+
+@import url("https://unpkg.com/mvp.css");
+
+body {
+	font-size: 1.3em;
+}
+main {
+	padding-top: 0;
+	max-width: 60vw;
+}
+header {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+}
+
+header ul {
+	list-style-type: none;
+	display: flex;
+}
+
+header li {
+	/*border-right: 1px solid white;*/
+	margin-right: 20px;
+}
+
+header a {
+	padding: 10px;
+}
