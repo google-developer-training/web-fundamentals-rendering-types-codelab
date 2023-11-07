@@ -1,18 +1,17 @@
 {
-  "name": "rendering-types-codelab",
-  "version": "1.0.0",
-  "private": true,
-  "description": "",
-  "main": "api/api.js",
-  "type": "module",
-  "author": "",
-  "license": "Apache-2.0",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.1",
-    "nodemon": "^2.0.19"
-  },
-  "scripts": {
-    "start": "nodemon --no-warnings index"
-  }
+	"name": "rendering-types-codelab",
+	"version": "1.0.1",
+	"private": true,
+	"description": "Code to accompany a codelab",
+	"main": "api/api.js",
+	"type": "module",
+	"author": "Umar Hansa",
+	"license": "Apache-2.0",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^4.18.2"
+	},
+	"scripts": {
+		"start": "node --watch index"
+	}
 }

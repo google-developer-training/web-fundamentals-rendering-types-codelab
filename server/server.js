@@ -40,7 +40,7 @@ async function productListingPage(req, res) {
 	<ol>
 		${json
 			.map(
-				(el) => `<li>
+				el => `<li>
 			<a href="products/${el.slug}">${el.title}</a>
 		</li>`
 			)
